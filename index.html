@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>MenuButtons</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="menu-icon-x">
+    <span class="menu-icon-line"></span>
+    <span class="menu-icon-line"></span>
+    <span class="menu-icon-line"></span>
+  </div>
+  <div class="menu-icon-arrow">
+    <span></span>
+  </div>
+
+  <p class="title">Menu buttons</p>
+  <div class="credits">
+    <a href="#" class="source">Source on GitHub</a>
+    <a href="#" class="portfolio">Portfolio</a>
+    <a href="#" class="twitter">Twitter</a>
+  </div>
+
+  <div class="container">
+    <div class="flip-menu">
+      <div class="flip-line">
+        <figure class="frontside"></figure>
+        <figure class="backside"></figure>
+      </div>
+      <div class="flip-line">
+        <figure class="frontside"></figure>
+        <figure class="backside"></figure>
+      </div>
+      <div class="flip-line">
+        <figure class="frontside"></figure>
+        <figure class="backside"></figure>
+      </div>
+    </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+   $(document).ready(function() {
+
+    /*Menu-icon-1*/
+     let clickDelay = 500;
+     let clickTimer = null;
+     $(".menu-icon-x").on('click', function() {
+       if (clickTimer == null) {
+        var burgerClick = $(this)
+
+        burgerClick.toggleClass('active')
+        if (!burgerClick.hasClass('active')) {
+         burgerClick.addClass('close');
+        }
+
+        clickTimer = setTimeout(function () {
+        burgerClick.removeClass('close');
+        clearTimeout(clickTimer);
+        clickTimer = null;
+        }, clickDelay);
+      }
+    })
+
+    /*Menu-icon-2*/
+   $(".menu-icon-arrow").click(function(event) {
+     if ($(this).hasClass('menu-icon-open')) {
+     $(this).removeClass('menu-icon-open');
+     }else{
+     $(this).addClass('menu-icon-open');
+     }
+   })
+
+   /*Menu-icon-3*/
+   $(".flip-menu").on('click', function() {
+     if (clickTimer == null) {
+     var flip = $(this)
+
+     flip.toggleClass('flipped')
+
+     if (!flip.hasClass('flipped')) {
+      flip.addClass('flipped-back');
+     }
+
+     clickTimer = setTimeout(function () {
+     flip.removeClass('flipped-back');
+     clearTimeout(clickTimer);
+     clickTimer = null;
+     }, clickDelay);
+     }
+   })
+  })
+  </script>
+</body>
+</html>

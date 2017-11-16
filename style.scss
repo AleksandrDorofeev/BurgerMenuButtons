@@ -1,0 +1,483 @@
+$main-position: absolute;
+$width: 100px;
+$height: 10px;
+$border-radius: 5px;
+$menu-bg-color: #FFFFFF;
+
+@mixin centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin transition( $value ) {
+	transition: $value;
+}
+
+@mixin transform( $value ) {
+	transform: $value;
+}
+
+@mixin transform-origin( $value ) {
+	transform-origin: $value;
+}
+
+body {
+  margin: 0;
+  font-family: Helvetica, sans-serif;
+  background-color: #2196F3;
+}
+
+/* Menu-icon-1*/
+$animation-duration: 400ms;
+$animation-timing-function: ease-out;
+
+.menu-icon-x {
+  position: $main-position;
+  top:50%;
+  left: 30%;
+  @include transform(translate(-50%, -50%));
+  width: $width;
+  height: 50px;
+}
+  .menu-icon-line {
+    display: block;
+    position: $main-position;
+    width: $width;
+    height: $height;
+    background-color: $menu-bg-color;
+    border-radius: $border-radius;
+    @include transition(transform 400ms ease-out);
+    &:nth-child(1) {
+      top: 0;
+    }
+    &:nth-child(2) {
+      top: 20px;
+      opacity: 1;
+    }
+    &:nth-child(3) {
+      top: 40px;
+    }
+    .active & {
+      &:nth-child(1) {
+        animation: slide-from-top $animation-duration $animation-timing-function forwards;
+      }
+      &:nth-child(2) {
+        opacity: 0;
+        transition: opacity $animation-duration/2 linear;
+      }
+      &:nth-child(3) {
+        animation: slide-from-bottom $animation-duration $animation-timing-function forwards;
+      }
+    }
+    .close & {
+      &:nth-child(1) {
+        animation: slide-close-from-top $animation-duration $animation-timing-function forwards;
+      }
+      &:nth-child(2) {
+        opacity: 1;
+        transition: opacity $animation-duration*2 linear;
+      }
+      &:nth-child(3) {
+        animation: slide-close-from-bottom $animation-duration $animation-timing-function forwards;
+      }
+    }
+  }
+
+@keyframes slide-from-top {
+  50% {
+    @include transform(translateY(20px));
+  }
+  100% {
+    @include transform(translateY(20px) rotate(45deg));
+  }
+}
+@keyframes slide-from-bottom {
+  50% {
+    @include transform(translateY(-20px));
+  }
+  100% {
+    @include transform(translateY(-20px) rotate(-45deg));
+  }
+}
+
+@keyframes slide-close-from-top {
+  0% {
+    @include transform(translateY(20px) rotate(45deg));
+  }
+  50% {
+    @include transform(translateY(20px));
+  }
+  100% {
+    @include transform(translateY(0px));
+  }
+}
+@keyframes slide-close-from-bottom {
+  0% {
+    @include transform(translateY(-20px) rotate(-45deg));
+  }
+  50% {
+    @include transform(translateY(-20px));
+  }
+  100% {
+    @include transform(translateY(0px));
+  }
+}
+
+/*Menu-icon-2*/
+$shadow: 0px 2px 0px rgba( 0, 0, 0, 0.2 );
+
+.menu-icon-arrow span {
+  position: $main-position;
+  @include centered;
+  width: $width;
+  height: $height;
+  background-color: $menu-bg-color;
+  @include transition(0.7s ease-in-out);
+  box-shadow: $shadow;
+  border-radius: $border-radius;
+  &:before {
+    content:"";
+    position: $main-position;
+    width: $width;
+    height: $height;
+    background-color: $menu-bg-color;
+    @include transform(translate(0, 20px));
+    @include transition(0.7s ease-in-out);
+    box-shadow: $shadow;
+    border-radius: $border-radius;
+  }
+  &:after {
+    content:"";
+    position: $main-position;
+    width: $width;
+    height: $height;
+    background-color: $menu-bg-color;
+    @include transform(translate(0, -20px));
+    @include transition(0.7s ease-in-out);
+    box-shadow: $shadow;
+    border-radius: $border-radius;
+  }
+}
+
+.menu-icon-open {
+  span {
+    @include transform(rotate(-180deg));
+    @include transform-origin(20%);
+    box-shadow: 0px -2px 0px rgba( 0, 0, 0, 0.2 );
+    &:before {
+      width: 45px;
+      box-shadow:
+                15px 0 white,
+                0px -2px 0px rgba( 0, 0, 0, 0.2 );
+      @include transform(translate(56px, 24px) rotate(-45deg));
+    }
+    &:after {
+      width: 60px;
+      box-shadow: 0px -2px 0px rgba( 0, 0, 0, 0.2 );
+      @include transform(translate(55px, -18px) rotate(45deg));
+    }
+  }
+}
+
+/*Menu-icon-3*/
+$flip-animation-duration: 1000ms;
+$flip-animation-timing-function: linear;
+
+.container {
+  position: $main-position;
+  top: 50%;
+  right: 23%;
+  @include transform(translateY(-50%));
+  width: $width;
+  height: 50px;
+  perspective: 1000px;
+}
+
+.flip-line {
+  transform-style: preserve-3d;
+  @include transition(transform 1000ms);
+  &:nth-child(1) {
+    position: $main-position;
+    top: 0;
+    width: 100%;
+    height: 20%;
+    figure {
+      display: block;
+      position: $main-position;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      backface-visibility: hidden;
+      border-radius: $border-radius;
+    }
+    .frontside {
+      background-color: $menu-bg-color;
+    }
+    .backside {
+      background-color: #1976D2;
+       @include transform(rotateY(180deg));
+    }
+  }
+  &:nth-child(2) {
+    position: $main-position;
+    top: 20px;
+    width: 100%;
+    height: 20%;
+    figure {
+      display: block;
+      position: $main-position;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      backface-visibility: hidden;
+      border-radius: 5px;
+    }
+    .frontside {
+      background-color: $menu-bg-color;
+    }
+    .backside {
+      background-color:white;
+       @include transform(rotateY(180deg));
+    }
+  }
+  &:nth-child(3) {
+    position: $main-position;
+    top: 40px;
+    width: 100%;
+    height: 20%;
+    figure {
+      display: block;
+      position: $main-position;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      backface-visibility: hidden;
+      border-radius: 5px;
+    }
+    .frontside {
+      background-color: $menu-bg-color;
+    }
+    .backside {
+      background-color:white;
+       @include transform(rotateY(180deg));
+    }
+  }
+  .flipped & {
+    &:nth-child(1) {
+    animation: flip-animation $flip-animation-duration $flip-animation-timing-function forwards;
+    }
+  }
+  .flipped & {
+    &:nth-child(2) {
+    animation: flip-animation-deg1 $flip-animation-duration $flip-animation-timing-function forwards;
+    animation-delay: 400ms;
+    }
+  }
+  .flipped & {
+    &:nth-child(3) {
+    animation: flip-animation-deg2 $flip-animation-duration $flip-animation-timing-function forwards;
+    animation-delay: 600ms;
+    }
+  }
+  .flipped-back & {
+    &:nth-child(1) {
+    animation: flip-animation-back $flip-animation-duration $flip-animation-timing-function forwards;
+    }
+  }
+  .flipped-back & {
+    &:nth-child(2) {
+    animation: flip-animation-back-deg1 $flip-animation-duration $flip-animation-timing-function forwards;
+    }
+  }
+  .flipped-back & {
+    &:nth-child(3) {
+    animation: flip-animation-back-deg2 $flip-animation-duration $flip-animation-timing-function forwards;
+    }
+  }
+}
+
+@keyframes flip-animation {
+  0% {
+    @include transform(rotateY(0));
+  }
+  50% {
+    @include transform(rotateY(180deg));
+    height: 25px;
+  }
+  100% {
+    @include transform(rotateY(180deg));
+    height: 50px;
+  }
+}
+@keyframes flip-animation-deg1 {
+  0% {
+    @include transform(rotateY(0));
+  }
+  50% {
+    @include transform(rotateY(180deg) translate(-25px) rotate(-45deg));
+    width: 50px;
+  }
+  100% {
+    @include transform(rotateY(180deg) translate(-25px) rotate(-45deg));
+    width: 50px;
+  }
+}
+@keyframes flip-animation-deg2 {
+  0% {
+    @include transform(rotateY(0));
+  }
+  50% {
+    @include transform(rotateY(180deg) translate(-25px, -20px) rotate(45deg));
+    width: 50px;
+  }
+  100% {
+    @include transform(rotateY(180deg) translate(-25px, -20px) rotate(45deg));
+     width: 50px;
+  }
+}
+
+@keyframes flip-animation-back {
+  0% {
+    @include transform(rotateY(180deg));
+    height: 50px
+  }
+  50% {
+    @include transform(rotateY(0deg));
+    height: 10px;
+  }
+  100% {
+    @include transform(rotateY(0));
+    height: 10px;
+  }
+}
+@keyframes flip-animation-back-deg1 {
+  0% {
+    @include transform(rotateY(180deg) translate(-25px) rotate(-45deg));
+    width: 50px;
+  }
+  50% {
+    @include transform(rotateY(0) translate(0) rotate(0));
+     width: 100px;
+  }
+  100% {
+    @include transform(rotateY(0)  translate(0) rotate(0));
+     width: 100%;
+  }
+}
+@keyframes flip-animation-back-deg2 {
+  0% {
+    @include transform(rotateY(180deg) translate(-25px, -20px) rotate(45deg));
+    width: 50px;
+  }
+  50% {
+    @include transform(rotateY(0) translate(0) rotate(0));
+    width: 100px;
+  }
+  100% {
+    @include transform(rotateY(0) translate(0) rotate(0));
+     width: 100%;
+  }
+}
+
+/*Information*/
+.title {
+  position: $main-position;
+  left: 30px;
+  bottom: 14px;
+  color: white;
+  font-size: 18px;
+}
+
+.credits {
+  position: $main-position;
+  right: 30px;
+  bottom: 30px;
+  a {
+    margin-left: 15px;
+    text-decoration: none;
+    background-color: #1976D2;
+    color: white;
+  }
+  .source {
+    padding: 6px 10px;
+    &:before {
+      position: $main-position;
+      content:"";
+      top: 10%;
+      bottom: 50%;
+      width: 20%;
+      background-color: #dddddd;
+      box-shadow: -5px 15px 10px #555555;
+      @include transform(rotate(-7deg));
+      z-index: -1;
+    }
+    &:after {
+      position: $main-position;
+      content:"";
+      right: 62%;
+      top: 10%;
+      bottom: 50%;
+      width: 20%;
+      background-color: #dddddd;
+      box-shadow: 0 15px 10px #555555;
+      @include transform(rotate(8deg));
+      z-index: -1
+    }
+  }
+  .portfolio {
+    padding: 6px 25px;
+    &:before {
+      position: $main-position;
+      content:"";
+      left: 45%;
+      top: 10%;
+      bottom: 50%;
+      width: 20%;
+      background-color: #dddddd;
+      box-shadow: 0 15px 10px #555555;
+      @include transform(rotate(-7deg));
+      z-index: -1;
+  }
+    &:after {
+      position: $main-position;
+      content:"";
+      right: 32%;
+      top: 10%;
+      bottom: 48%;
+      width: 15%;
+      background-color: #dddddd;
+      box-shadow: 0 15px 10px #555555;
+      @include transform(rotate(8deg));
+      z-index: -1
+    }
+  }
+  .twitter {
+    padding: 6px 30px;
+    &:before {
+      position: $main-position;
+      content:"";
+      left: 75%;
+      top: 10%;
+      bottom: 50%;
+      width: 20%;
+      background-color: #dddddd;
+      box-shadow: 0 15px 10px #555555;
+      @include transform(rotate(-7deg));
+      z-index: -1;
+  }
+    &:after {
+      position: $main-position;
+      content:"";
+      right: 1%;
+      top: 10%;
+      bottom: 48%;
+      width: 15%;
+      background-color: #dddddd;
+      box-shadow: 0 15px 10px #555555;
+      @include transform(rotate(8deg));
+      z-index: -1
+    }
+  }
+}
